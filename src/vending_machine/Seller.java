@@ -186,6 +186,9 @@ public abstract class Seller {
 		}
 	}
 
+	protected void refund(Customer customer, int money) {
+		
+	}
 	
 	/**
 	 * 고객에게 환불처리한다.
