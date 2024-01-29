@@ -43,7 +43,9 @@ public class Marin implements SpeicalCommand {
 		Unit marine2 = new Marin();
 		Attackable marine3 = new Marin();
 		
-		
+		marine1.steampack();
+		marine2.move();
+		marine3.attack();
 		
 	}
 }
