@@ -46,9 +46,7 @@ public abstract class Seller {
 //		this.productArray = product;
 //	}
 
-//	public void setMoney(int money) {
-//		this.money = money;
-//	}
+
 
 	public int getMoney() {
 		return this.money;
@@ -195,7 +193,7 @@ public abstract class Seller {
 	 * @param customer 환불받을 고객
 	 * @param refundMoney 환불받은 금액
 	 */
-	protected abstract void refund(Customer customer, int refundMoney);
+	//abstract void refund(Customer customer, int refundMoney);
 
 	public void printProducts() {
 		
