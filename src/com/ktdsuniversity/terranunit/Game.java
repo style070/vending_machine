@@ -41,13 +41,13 @@ public class Game {
 		// Scv scv = new Scv();
 		Attackable scv = new Scv();
 
-		marine.attack();
-		marine.move();
-		marine.steampack();
-
-		scv.attack();
-		scv.move();
-		scv.patrol();
+//		marine.attack();
+//		marine.move();
+//		marine.steampack();
+//
+//		scv.attack();
+//		scv.move();
+//		scv.patrol();
 		// scv.steampack();
 
 		move(scv);
