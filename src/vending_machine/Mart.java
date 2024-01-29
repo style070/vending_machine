@@ -54,7 +54,7 @@ public class Mart {
 		System.out.println(p);
 		
 		
-		//Seller ( 추상클래스 일때 )
+		//Seller
 		//   --> VendingMachine
 		//   --> RefundableVendingMachine
 		// IS A (다형성)
@@ -62,18 +62,8 @@ public class Mart {
 		// RefundableVendingMachine IS A Seller
 		// Seller drinkVendingMachine = new VendingMachine();
 		// Seller drinkVendingMachine = new Refundable Vending Machine
-		
-		
-		// Sellable ( 인터페이스 )
-		//   --> (구현) VendingMachine
-		//	 --> (구현) RefundableVendingMachine
-		// 인터페이스를 구현 ( IS A )
-		// VendingMachine IS A Sellable
-		// RefundableVendingMachine IS A Sellable
-		// Seller drinkVendingMachine = new VendingMachine();
-		// Seller drinkVendingMachine = new RefundableVendingMachine
 
-		Sellable drinkMachine = new VendingMachine();
+		Seller drinkMachine = new VendingMachine();
 
 		Customer musk = new Customer(200_000);
 
@@ -81,12 +71,12 @@ public class Mart {
 		drinkMachine.pressButton(musk, "제로펩시",50);
 
 		drinkMachine.insertMoney(musk, "제로펩시");
-		drinkMachine.pressButton(musk, "제로펩시",50);
+		drinkMachine.pressButton(musk, "제로펩시");
 
 		drinkMachine.printProducts();
 		musk.printProducts();
 
-		Sellable snackMachine = new RefundableVendingMachine(400);
+		Seller snackMachine = new RefundableVendingMachine(400);
 		snackMachine.insertMoney(musk, "제로펩시");
 		snackMachine.pressButton(musk, "제로펩시", 50);
 
