@@ -13,6 +13,39 @@ import org.w3c.dom.css.CSSValueList;
 import vending_machine.Product;
 
 public class FileUtil {
+	
+
+	public static void writeFile(String parent, String filename , String description ,boolean append) {
+		File file = new File(parent,filename);
+		if(!file.getParentFile().exists()) {
+			file.getParentFile().mkdirs();
+		}
+		List<String> originalFileDescription = new ArrayList();
+		if(! append ) {
+			//이어서 쓰지 않을것 이라면
+			int index =2;
+			while (file.exists()) {
+				file = new File(file.getParent(),"java_output ("+(index++)+").txt");
+			}
+		}
+		else {
+			//이어서 쓸것이라면.. 영역.
+			// 기존의 파일 내용을 읽어와서 List<String>으로 반환 받는다.
+			// 반환 받을 내용을 originalFileDescription에 addAll 한다.
+			//originalFileDescription.addAll(FileUti.get)
+		}
+	}
+	public static List<String> getAllLines(File file){
+		if(file.exists()&&file.isFile()) {
+			FileReader reader = null;
+			BufferedReader BufferedReader = null;
+			try {
+				reader = new FileReader(file)
+			}
+		}
+	}
+	
+
 
 	public static List<Product> readCSVFile(String parent, String fileName) {
 
