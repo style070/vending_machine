@@ -3,7 +3,7 @@ package bookcafe;
 public class BookCafe {
 
 	// 멤버변수 선언
-	private int profits;
+	private int profits; 
 
 	// Books 데이터 클래스 타입 멤버변수 선언
 	private Books slamDunk1;

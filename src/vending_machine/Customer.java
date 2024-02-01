@@ -1,5 +1,8 @@
 package vending_machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
 	/**
 	 * 고객이 가진돈
@@ -10,7 +13,7 @@ public class Customer {
 	 * 고객이 가진 상품의 수량
 	 */
 	// int stock;
-	private Product[] productArray; // 고객이 가진 상품의 물량을 추가하기 위해 Product 데이터클래스 선언
+	private List<Product> productArray; // 고객이 가진 상품의 물량을 추가하기 위해 Product 데이터클래스 선언
 
 	/**
 	 * 지출한다.
@@ -20,7 +23,7 @@ public class Customer {
 		return this.wallet;
 	}
 
-	public Product[] getProduct() {
+	public List<Product> getProduct() {
 		return productArray;
 	}
 
@@ -33,7 +36,7 @@ public class Customer {
 	public Customer(int wallet) {
 		this.wallet = wallet; // 고객이 가진돈을 파라미터 값으로 받아 (200_000) 값 할당
 		// this.stock = stock;
-		this.productArray = new Product[3]; // 고객이 가진 (장바구니 같은) 데이터클래스 생성
+		this.productArray = new ArrayList<>(); // 고객이 가진 (장바구니 같은) 데이터클래스 생성
 	}
 
 	public void pay(int price) {
@@ -94,13 +97,19 @@ public class Customer {
 			product.setQuantity(quantity);
 			
 		} else {
-			int nullIndex = this.getNullIndex();
-			if(nullIndex>=0) {
-				this.productArray[nullIndex] = new Product();
-				this.productArray[nullIndex].setName(name);
-				this.productArray[nullIndex].setPrice(price);
-				this.productArray[nullIndex].setQuantity(productCount);
-			}
+			Product buyProduct = new Product();
+			buyProduct.setName(name);
+			buyProduct.setPrice(price);
+			buyProduct.setQuantity(productCount);
+			this.productArray.add(buyProduct);
+			
+//			int nullIndex = this.getNullIndex();
+//			if(nullIndex>=0) {
+//				this.productArray[nullIndex] = new Product();
+//				this.productArray[nullIndex].setName(name);
+//				this.productArray[nullIndex].setPrice(price);
+//				this.productArray[nullIndex].setQuantity(productCount);
+//			}
 
 		}
 
@@ -138,15 +147,15 @@ public class Customer {
 		return null;
 	}
 
-	private int getNullIndex() {
-		for (int i = 0; i < this.productArray.length; i++) {
-			if (this.productArray[i] == null) {
-				return i;
-			}
-		}
-		return -1;
-
-	}
+//	private int getNullIndex() {
+//		for (int i = 0; i < this.productArray.length; i++) {
+//			if (this.productArray[i] == null) {
+//				return i;
+//			}
+//		}
+//		return -1;
+//
+//	}
 
 	public void printProducts() {
 

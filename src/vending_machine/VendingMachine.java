@@ -1,5 +1,7 @@
 package vending_machine;
 
+import java.util.List;
+
 /**
  * 상속받은 클래스가 추상 메소드가 존재하는 추상 클래스라면 <br/>
  * 추상 메소드를 이 클래스에서 구현을 시키거나 <br/>
@@ -7,41 +9,35 @@ package vending_machine;
  * <b> 환불 불가능한 자판기 </b>
  * 
  */
-public class VendingMachine implements Sellable {
+public class VendingMachine<I> implements Sellable<I> {
+
+	private InsertMoneyHandler<I> insertMoneyHandler;
+	private PressButtonHandler<I> pressButtonHandler;
+	private PrintHandler<I> printHandler;
 
 	// 멤버변수 자리
 	/**
 	 * 상품 수량
 	 */
 	// int productQuantity;
-	private Product[] productArray; // Product 타입의 데이터 클래스
+	private List<I> productArray; // Product 타입의 데이터 클래스
 
 	/**
 	 * 돈
 	 */
 	private int money;
-	
-	public VendingMachine() {
-		this(100_000);
-		
-		
+
+	public VendingMachine(List<I> itemArray) {
+		// 제일 심플하게 무엇인지 모르니 Null 반환
+		// 돈만있고 아무것도 팔지 않는 자판기
+		this(100_000, itemArray);
+
 	}
-	
-	public VendingMachine(int money) {
+
+	public VendingMachine(int money, List<I> itemArray) {
 		this.money = money;
-		this.productArray=new Product[3];// Product 클래스에 정의된 데이터 클래스 인스턴스생성
+		this.productArray = itemArray;
 
-		this.productArray[0]=new Product(); // product 데이터 클래스의 name 필드에 String "제로콜라"할당
-		this.productArray[0].setName("제로펩시"); // product 데이터 클래스의 price 필드에 int 1600 할당
-		this.productArray[0].setPrice(1600);this.productArray[0].setQuantity(50);
-
-		this.productArray[1]=new Product(); // product 데이터 클래스의 name 필드에 String "제로콜라"할당
-		this.productArray[1].setName("제로콜라"); // product 데이터 클래스의 price 필드에 int 1600 할당
-		this.productArray[1].setPrice(1500);this.productArray[1].setQuantity(30);
-
-		this.productArray[2]=new Product(); // product 데이터 클래스의 name 필드에 String "제로콜라"할당
-		this.productArray[2].setName("제로스프라이트"); // product 데이터 클래스의 price 필드에 int 1600 할당
-		this.productArray[2].setPrice(1400);this.productArray[2].setQuantity(20);
 	}
 
 	@Override
@@ -51,7 +47,7 @@ public class VendingMachine implements Sellable {
 	}
 
 	@Override
-	public Product[] getProductArray() {
+	public List<I> getProductArray() {
 		// TODO Auto-generated method stub
 		return this.productArray;
 	}
@@ -69,6 +65,24 @@ public class VendingMachine implements Sellable {
 	}
 
 	@Override
+	public void setInsertMoneyHandler(InsertMoneyHandler<I> handler) {
+		// TODO Auto-generated method stub
+		this.insertMoneyHandler = handler;
+	}
+
+	@Override
+	public void setPressButtonHandler(PressButtonHandler<I> handler) {
+		// TODO Auto-generated method stub
+		this.pressButtonHandler = handler;
+	}
+
+	@Override
+	public void setPrintHandler(PrintHandler<I> handler) {
+		// TODO Auto-generated method stub
+		this.printHandler = handler;
+	}
+
+	@Override
 	public void insertMoney(Customer customer, String productName) {
 		// TODO Auto-generated method stub
 
@@ -77,12 +91,8 @@ public class VendingMachine implements Sellable {
 		// 해당 제품의 가격으로 자판기의 돈을 증가시키고
 		// 고객의 돈을 감소시킨다.
 
-		for (Product product : this.productArray) {
-			if (product.getName().equals(productName)) {
-				this.money += product.getPrice();
-				customer.pay(product.getPrice());
-				break; // 반복을 중단.
-			}
+		for (I product : this.productArray) {
+			this.insertMoneyHandler.handle(this, customer, product, productName);
 		}
 		// money += this.productArray.getPrice(); // VendingMachine 잔고에 상품 값 더함 ( 하기
 		// 코드에서 pay() 메서드로 고객이 지불하게됨 )
@@ -99,23 +109,13 @@ public class VendingMachine implements Sellable {
 	@Override
 	public void pressButton(Customer customer, String productName, int orderCount) {
 		// TODO Auto-generated method stub
-		for (Product product : this.productArray) {
-			if (product.getName().equals(productName)) {
-				if (product.getQuantity() <= 0) {
-					refund(customer, product.getPrice());
-					return;
-				}
-				int quantity = product.getQuantity();
-				quantity -= orderCount;
-				product.setQuantity(quantity);
-
-				customer.addStock(productName, product.getPrice(), orderCount);
-			}
+		for (I product : this.productArray) {
+			this.pressButtonHandler.handle(this, customer, product, productName, orderCount);
+			;
 
 		}
 	}
 
-	
 	protected void refund(Customer customer, int refundMoney) {
 		// TODO Auto-generated method stub
 		System.out.println("환불자판기가 아닙니다. 환불은 불가능합니다");
@@ -124,6 +124,14 @@ public class VendingMachine implements Sellable {
 
 	@Override
 	public void printProducts() {
+		System.out.println("자판기의 잔액: " + this.money);
+		for (I product : this.productArray) {
+//			if(product!= null) {
+//				
+//			}
+			this.printHandler.handle(product);
+		}
+
 		// TODO Auto-generated method stub
 
 	}

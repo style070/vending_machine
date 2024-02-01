@@ -1,20 +1,22 @@
 package vending_machine;
 
+import java.util.List;
+
 /**
  * 환불기능이 있는 자판기
  */
 
 // extends 먼저사용
 // 생성자와 refund 빼고 모두 삭제하면됨
-public class RefundableVendingMachine extends VendingMachine implements Sellable {
+public class RefundableVendingMachine<I> extends VendingMachine<I> implements Sellable<I> {
 
-	public RefundableVendingMachine() {
-		this(100_000);
+	public RefundableVendingMachine(List<I> itemArray) {
+		super(itemArray);
 
 	}
 
-	public RefundableVendingMachine(int money) {
-		super(money);
+	public RefundableVendingMachine(int money,List<I> itemArray) {
+		super(itemArray);
 //		super.productArray = new Product[3];// Product 클래스에 정의된 데이터 클래스 인스턴스생성
 //
 //		super.productArray[0] = new Product(); // product 데이터 클래스의 name 필드에 String "제로콜라"할당
